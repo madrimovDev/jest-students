@@ -1,7 +1,16 @@
-import { Button, Container, Stack, TextField, Typography } from '@mui/material'
+import {
+	Alert,
+	Button,
+	CircularProgress,
+	Container,
+	Stack,
+	TextField,
+	Typography,
+} from '@mui/material'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as Yup from 'yup'
+import { LoadingButton } from '@mui/lab'
 
 type Inputs = {
 	name: string
@@ -17,10 +26,14 @@ export const Login = () => {
 	const {
 		handleSubmit,
 		register,
-		formState: { errors },
+		reset,
+		formState: { errors, isSubmitSuccessful },
 	} = useForm<Inputs>({ resolver: yupResolver(scheme) })
 
-	const submit: SubmitHandler<Inputs> = (data) => console.log(data)
+	const submit: SubmitHandler<Inputs> = (data) => {
+		reset()
+		console.log(data)
+	}
 
 	return (
 		<Container
@@ -32,6 +45,17 @@ export const Login = () => {
 			}}
 		>
 			<form onSubmit={handleSubmit(submit)}>
+				<Alert
+					sx={{
+						position: 'absolute',
+						top: '20vh',
+						left: "50%",
+						transform: 'translateX(-50%)',
+					}}
+					severity="error"
+				>
+					This is an error alert — check it out!
+				</Alert>
 				<Stack
 					spacing={2}
 					sx={{
@@ -67,9 +91,17 @@ export const Login = () => {
 						label="Path name"
 						helperText={errors.path?.message}
 					/>
-					<Button variant="contained" type="submit" size="large">
-						Login
-					</Button>
+					<LoadingButton
+						loadingIndicator={
+							<CircularProgress color="inherit" size={16} title="loading" />
+						}
+						loading={isSubmitSuccessful}
+						variant="contained"
+						size="large"
+						type="submit"
+					>
+						LOGIN
+					</LoadingButton>
 				</Stack>
 			</form>
 		</Container>
