@@ -1,9 +1,9 @@
-import { Login } from './pages/authorization/Login'
+import { Layout } from './pages/Layout'
 
 function App() {
 	return (
 		<div className="App">
-			<Login />
+			<Layout />
 		</div>
 	)
 }
